@@ -38,7 +38,7 @@ RUN chmod +x /app/entrypoint.sh /app/start_xray.sh \
     && mkdir -p /data /run/nginx
 
 EXPOSE 8080
-VOLUME ["/data"]
+# Configure persistent storage in the hosting platform (Railway Volume mounted at /data).
 HEALTHCHECK --interval=30s --timeout=5s --start-period=30s \
     CMD curl -fsS "http://127.0.0.1:${PORT}/healthz" >/dev/null || exit 1
 

@@ -48,7 +48,7 @@ Xray listener map (همه روی `127.0.0.1`):
 ### Railway یا محیط Docker مشابه
 
 1. Repository را از GitHub deploy کنید؛ build از `Dockerfile` انجام می‌شود.
-2. یک volume/disk با mount path دقیق `/data` اضافه کنید.
+2. از تنظیمات سرویس Railway یک Railway Volume بسازید و mount path دقیق را `/data` بگذارید. دستور `VOLUME` عمداً در Dockerfile نیست؛ storage را خود Railway مدیریت می‌کند.
 3. متغیر `PORT` را به پلتفرم بسپارید. در صورت نیاز `TITAN_ADMIN_USER` و `TITAN_ADMIN_PASS` را پیش از اولین اجرا تنظیم کنید.
 4. به `/login` بروید و پس از ورود، رمز پیش‌فرض را تغییر دهید.
 
@@ -98,4 +98,4 @@ The complete inventory of removed/replaced lines, with original line numbers fro
 
 TiTaN is a single-container FastAPI control panel with Nginx and Xray. Supported combinations are **VLESS WS/XHTTP**, **VMess WS/XHTTP**, and **Trojan WS**. Public traffic enters through Nginx on `$PORT`; FastAPI and every Xray listener are loopback-only. Random transport paths persist in `/data/paths.json`, and the watchdog logs to `/data/watchdog.log` every five seconds.
 
-Mount persistent storage at `/data`, deploy the repository using its Dockerfile, then open `/login`. Retired protocol and transport selections are migrated to VLESS+WS/TLS. The public DoH endpoint and retired proxy protocols are not part of this build.
+Deploy the repository using its Dockerfile, then open `/login`. On Railway, add a Railway Volume in the service settings and mount it at `/data`; the Dockerfile intentionally omits Docker's `VOLUME` instruction because Railway manages persistent storage itself. Retired protocol and transport selections are migrated to VLESS+WS/TLS. The public DoH endpoint and retired proxy protocols are not part of this build.

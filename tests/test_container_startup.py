@@ -41,7 +41,9 @@ def test_dockerfile_installs_front_door_and_xray_and_keeps_data(repo_root):
     assert "nginx" in dockerfile and "gettext-base" in dockerfile
     assert "Xray-linux-${XRAY_ARCH}.zip" in dockerfile
     assert "install -m 0755 /tmp/xray-dist/xray /usr/local/bin/xray" in dockerfile
-    assert 'VOLUME ["/data"]' in dockerfile
+    # Platform-managed storage is mounted at /data; Docker VOLUME breaks Railway builds.
+    assert 'VOLUME ["/data"]' not in dockerfile
+    assert "mkdir -p /data" in dockerfile
     assert 'ENTRYPOINT ["/app/entrypoint.sh"]' in dockerfile
     assert "HEALTHCHECK" in dockerfile and "/healthz" in dockerfile
 

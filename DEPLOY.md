@@ -5,7 +5,7 @@ TiTaN runs Nginx, the FastAPI panel, Xray and a watchdog in one Docker container
 ## Railway / managed Docker platform
 
 1. Deploy this repository with the included `Dockerfile` and `entrypoint.sh`.
-2. Attach persistent storage at **`/data`**. This is required to keep `titan.db`, backups, `paths.json`, and logs across replacement containers.
+2. In Railway, add a Railway Volume to the service and set its mount path to **`/data`**. This is required to keep `titan.db`, backups, `paths.json`, and logs across replacement containers. The Dockerfile intentionally does not declare `VOLUME`; Railway manages storage separately.
 3. Let the platform provide `PORT`; do not point it at FastAPI directly. The container fixes FastAPI at `127.0.0.1:10000` and fronts it with Nginx.
 4. Open the generated HTTPS domain at `/login`. Set a unique admin password using `TITAN_ADMIN_PASS` before first boot, or change the initial password after login.
 
